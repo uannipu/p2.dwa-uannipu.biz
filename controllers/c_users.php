@@ -55,6 +55,7 @@ public function p_signup() {
 
         # Hash submitted password so we can compare it against one in the db
         $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);
+        $_POST['token'] = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string());
 
         # Search the db for this email and password
         # Retrieve the token if it's available
@@ -116,6 +117,9 @@ public function p_signup() {
 
         # Do the update
         DB::instance(DB_NAME)->update("users", $data, "WHERE token = '".$this->user->token."'");
+        # DB::instance(DB_NAME)->update("users", $data, 'WHERE user_id= '.$this->user>user_id);
+
+        # token = '".$this->user->token."'");
 
         # Delete their token cookie by setting it to a date in the past - effectively logging them out
         setcookie("token", "", strtotime('-1 year'), '/');
