@@ -24,6 +24,10 @@
         <a href='/users/profile'>Profile</a>
         <a href='/posts'>Posts</a>
         <a href='/posts/add'>Add posts</a>
+        <a href='/posts/follow'>Follow Users</a>
+        <a href='/posts/unfollow'>Un follow Users</a>
+
+
 
 
         <!-- Menu options for users who are not logged in -->
