@@ -18,30 +18,63 @@ echo $this->template;
 }
 
 public function p_signup() {
-    $_POST['created_date']  = Time::now();
-    $_POST['last_modified_date'] = Time::now();
 
-    $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);
+    $email = $_POST['email_id'];
+    echo 'email'.$email;
 
-    # Create an encrypted token via their email address and a random string
-    $_POST['token'] = sha1(TOKEN_SALT.$_POST['email_id'].Utils::generate_random_string());
+    print_r($_GET);
+    print_r($_POST);
 
-    # Insert this user into the database
-    $user_id = DB::instance(DB_NAME)->insert('users', $_POST);
+  //  if($email == '' || FILTER_VALIDATE_EMAIL) {
+    //    Router::redirect('/users/signup/?msg=email is invalid');
+    //}
+    echo 'email valid';
+    $emailquery = "SELECT email_id from users where email_id = '".$_POST['email_id']."'";
+    echo 'query : '.$emailquery ;
+
+
+    foreach($_POST as $key => $value){
+        if((isSet($value) || (!$value) || ($value = ""))){
+            Router::redirect('/users/signup/?incomplete');
+        }
+    }
+
+    //check if a user exists with the same email id
+    $userExists = DB::instance(DB_NAME)->select_rows($emailquery);
+    if(!empty($userExists)){
+        $errstr='User already exists';
+        echo $errstr;
+        $error = 'userexists';
+        Router::redirect("/users/login/error");
+    } else {
+        $_POST['created_date']  = Time::now();
+        $_POST['last_modified_date'] = Time::now();
+
+        $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);
+
+        # Create an encrypted token via their email address and a random string
+        $_POST['token'] = sha1(TOKEN_SALT.$_POST['email_id'].Utils::generate_random_string());
+
+        # Insert this user into the database
+        $user_id = DB::instance(DB_NAME)->insert('users', $_POST);
+        Router::redirect('/users/login/?msg=user has been created successfully, please log in');
+    }
+
 
     # For now, just confirm they've signed up -
     # You should eventually make a proper View for this
-    echo 'You\'re signed up';
+    //echo 'You\'re signed up';
 }
 
 
-    public function login($error = NULL) {
+    public function login($error = NULL, $exists = NULL) {
 
         # Set up the view
         $this->template->content = View::instance("v_users_login");
 
         # Pass data to the view
         $this->template->content->error = $error;
+        $this->template->content->exists = $exists;
 
         # Render the view
         echo $this->template;
@@ -69,6 +102,7 @@ public function p_signup() {
         # If we didn't find a matching token in the database, it means login failed
             if(!$token) {
                 # Note the addition of the parameter "error"
+                $error='loginerror';
                 Router::redirect("/users/login/error");
                  # But if we did, login succeeded!
         } else {

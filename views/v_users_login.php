@@ -20,6 +20,14 @@
 <body>
 <form method='POST' action='/users/p_login'>
 
+    <?php if(isset($error)): ?>
+        <?php print_r($error)?>
+        <div class='error'>
+            User already exists. Please login with your email id and password.
+        </div>
+        <br>
+    <?php endif; ?>
+
     Email<br>
     <input type='text' name='email'>
 
@@ -30,6 +38,7 @@ Password<br>
 
     <br><br>
     <?php if(isset($error)): ?>
+        <?php print_r($error)?>
         <div class='error'>
             Login failed. Please double check your email and password.
         </div>

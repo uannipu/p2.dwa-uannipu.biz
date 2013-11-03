@@ -11,6 +11,16 @@
 </head>
 
 <body>
+<?php
+print_r($_GET);
+print_r($_POST);
+
+?>
+
+<?php if(isset($_GET['incomplete'])): ?>
+    Incomplete registration
+<?php endif; ?>
+
 <form method="POST" action="/users/p_signup">
 
     First Name<br>
