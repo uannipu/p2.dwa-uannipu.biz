@@ -30,19 +30,29 @@ class posts_controller extends base_controller {
 
     public function p_add() {
 
+        $user = $this->user->user_id;
         # Associate this post with this user
-        $_POST['user_id']  = $this->user->user_id;
+        $_POST['user_id']  = $user;
 
         # Unix timestamp of when this post was created / modified
         $_POST['created']  = Time::now();
         $_POST['modified'] = Time::now();
 
-        # Insert
+        if(strlen($_POST['content']) < 1 ){
+                $this->template->content = View::instance('v_posts_add');
+                $this->template->title = "Add post";
+                $this->template->content->error_content="Post cannot be empty";
+                echo $this->template;
+                return;
+        } else {
+
+                # Insert
         # Note we didn't have to sanitize any of the $_POST data because we're using the insert method which does it for us
         DB::instance(DB_NAME)->insert('user_posts', $_POST);
-
+        Router::redirect("/posts/user/add/<?php echo $user ?>");
         # Quick and dirty feedback
-        echo "Your post has been added. <a href='/posts/add'>Add another</a>";
+
+        }
 
     }
 
@@ -112,6 +122,91 @@ class posts_controller extends base_controller {
         echo $this->template;
     }
 
+    public function user($user = NULL, $connections = NULL) {
+
+        # Set up the View
+        $this->template->content = View::instance("v_posts_view_user");
+        $this->template->title   = "View user posts";
+
+        if($this -> user){
+            $current_user = $this->user->user_id;
+        }
+     /*   if($this -> user){
+            $current_user = $this->user->user_id;
+            $user_connections = "SELECT * FROM users_users WHERE user_id = $current_user AND user_id_followed =$user";
+            $connections = DB::instance(DB_NAME)->select_rows($user_connections);
+            $this->template->content->connections = $connections;
+        }
+*/
+        # Build the query to get all the users
+       /* $q = "SELECT posts.*, users.first_name, users.last_name FROM user_posts posts
+                LEFT JOIN users ON ( posts.user_id = users.user_id)
+                WHERE posts.user_id = $current_user ORDER BY posts.post_id DESC";
+       */
+        $q = "SELECT posts.*, users.first_name, users.last_name FROM user_posts posts, users
+                WHERE posts.user_id = users.user_id and posts.user_id = $current_user ORDER BY posts.post_id DESC";
+
+        $view_posts = DB::instance(DB_NAME) ->select_rows($q);
+        $this ->template->content->view_posts = $view_posts;
+        echo $this->template;
+    }
+
+    public function edit($post = NULL) {
+
+         $user = $this->user->user_id;
+        echo "post is ". $post;
+        echo "userid is ".$user;
+        $q = "select * from user_posts where post_id = $post and user_id = $user" ;
+        echo "query is ".$q ;
+        # Do the insert
+        $posts = DB::instance(DB_NAME)->select_row($q);
+        if(!empty($posts)){
+            echo "inside if";
+
+            $this->template->content = View::instance('v_posts_edit');
+            $this->template->title = "Edit post";
+            $this->template->content->posts = $posts;
+            $this->template->content->post=$post;
+            $this->template->content->posttext=$posts['content'];
+            echo $this->template;
+        }
+        $this->template->content = View::instance('v_debug');
+        $this->template->content->message ="post id is ".$post. "userid is ".$user;
+        echo $this->template;
+        # Send them back
+        //Router::redirect("/posts/users");
+
+    }
+    public function p_edit($post = NULL) {
+
+        $user = $this->user->user_id;
+        $q = "select * from user_posts where post_id = $post and user_id = $user" ;
+        # Do the insert
+        echo $q;
+        $posts = DB::instance(DB_NAME)->select_row($q);
+        if(!empty($posts)){
+            if(strlen($_POST['content']) < 1 ){
+                $this->template->content = View::instance('v_posts_edit');
+                $this->template->title = "Edit post";
+                $this->template->content->posts = $posts;
+                $this->template->content->post=$post;
+                $this->template->content->posttext='';
+                $this->template->content->error_content="Post cannot be empty";
+                echo $this->template;
+                return;
+            } else {
+                $modified = $_POST['modified'] = Time::now();
+                $data = Array('content'=>$_POST['content'],'modified'=>$modified);
+                DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
+                    Router::redirect("/posts/user/<?php echo $user->user_id;?>");
+            }
+        }
+
+        # Send them back
+        //Router::redirect("/posts/users");
+
+        }
+
 
     public function follow($user_id_followed) {
 
@@ -140,4 +235,30 @@ class posts_controller extends base_controller {
         Router::redirect("/posts/users");
 
     }
+    public function delete($post = NULL) {
+
+        $user = $this->user->user_id;
+        $q = "select * from user_posts where post_id = $post and user_id = $user" ;
+        # Do the insert
+        echo $q;
+        $posts = DB::instance(DB_NAME)->select_row($q);
+        if(!empty($posts)){
+            DB::instance(DB_NAME)->delete("user_posts","WHERE post_id = $post");
+            Router::redirect("/posts/user/<?php echo $user->user_id;?>");
+          } else {
+                $modified = $_POST['modified'] = Time::now();
+                $data = Array('content'=>$_POST['content'],'modified'=>$modified);
+                DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
+                Router::redirect("/users/login");
+        }
+
+
+        # Send them back
+        //Router::redirect("/posts/users");
+
+    }
+
+
+
+
 }

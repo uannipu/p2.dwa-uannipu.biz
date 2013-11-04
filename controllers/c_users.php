@@ -189,6 +189,9 @@ public function p_signup() {
             # Render template
             echo $this->template;
         }
+
+
+
     public function logout() {
 
         # Generate and save a new token for next login
@@ -212,4 +215,48 @@ public function p_signup() {
 
     }
 
-   } # eoc
+    public function updateProfile($user = NULL) {
+        if(!$this->user){
+            Router:http_redirect('/users/login');
+        } else {
+            $this->template->content = View::instance(('v_users_updateProfile'));
+            $this->template->title = "Update Profile";
+            $user_id = $this->user->user_id;
+            $q = "SELECT * from users WHERE user_id = $user_id";
+            $user = DB::instance(DB_NAME)->select_row($q);
+            $this->template->content->user = $user;
+            echo $this->template;
+        }
+
+    }
+
+    public function p_updateProfile($user = NULL) {
+        if(!$this->user){
+            Router:http_redirect('/users/login');
+        } else {
+            $this->template->content = View::instance('v_users_updateProfile');
+            if (strlen($_POST['first_name']) < 1) {
+                $this->template->content->error_first_name = "First Name is invalid.";
+                $flg ='true';
+            }
+
+            if (strlen($_POST['last_name']) < 1) {
+                $this->template->content->error_last_name = "Last Name is invalid.";
+                $flg = 'true';
+            }
+            if(isset($flg) && $flg=='true'){
+
+                echo $this->template;
+                return;
+            }
+
+            $user_id = $this->user->user_id;
+            $modified = $_POST['last_modified_date'] = Time::now();
+            $data = Array('first_name'=>$_POST['first_name'], 'last_name'=>$_POST['last_name']);
+            DB::instance(DB_NAME)->update("users",$data,"WHERE user_id = $user_id");
+            Router::redirect("/posts/user/<?php echo $user->user_id;?>");
+        }
+
+    }
+
+} # eoc

@@ -21,9 +21,10 @@
 			<ul>
 				<li><a href='/posts'>Home</a></li>
 				<li><a href='/users/logout'>Logout</a></li>
-				<li><a href='/users/profile'>Profile</a></li>
+				<li><a href='/users/updateProfile'>Update Profile</a></li>
 				<li><a href='/posts/add'>Add posts</a></li>
 				<li><a href='/posts/users'>Follow Users</a></li>
+                <li><a href="/posts/user/<?php echo $user->user_id;?>">View My Posts</a></li>
 
 		</ul>
 		</div>
