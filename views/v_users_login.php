@@ -1,52 +1,61 @@
-/**
- * Created by JetBrains PhpStorm.
- * User: UAnnipu
- * Date: 10/26/13
- * Time: 5:02 PM
- * To change this template use File | Settings | File Templates.
- */
-<!DOCTYPE html>
-<html>
-<head>
-    <title><?php if(isset($title)) echo $title; ?></title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<!-- Controller Specific JS/CSS -->
-<?php if(isset($client_files_head)) echo $client_files_head; ?>
-
-</head>
-
-<body>
 <form method='POST' action='/users/p_login'>
-
-    <?php if(isset($error)): ?>
-        <?php print_r($error)?>
+  <!--  <?php //if(isset($error)): ?>
+        <?php //print_r($error)?>
         <div class='error'>
             User already exists. Please login with your email id and password.
         </div>
         <br>
-    <?php endif; ?>
+    <?php //endif; ?>
+-->
+    <div id="contentWithNav" class="schedule">
+        <table cellspacing="0" cellpadding="0" border="0" align="center"  class="tableData"  >
+            <tr>
+                <td colspan="3">
+                    <h3>Login</h3>
+                    <p> Please enter the following information.</p>
+                    <table cellspacing="0" cellpadding="5" border="0" class="candidateInfo">
+                     <tr>
 
-    Email<br>
-    <input type='text' name='email'>
+                            <td>
+                                <label>Email</label>
+                                <input type='text' name='email'>
 
-    <br><br>
+                            </td>
+                            <td>
+                                <label>Password</label>
+                                <input type='password' name='password'>
+                            </td>
+                        </tr>
 
-Password<br>
-    <input type='password' name='password'>
+                        <!--   <tr>
+                                   <td>
+                                       <label>Password</label>
+                                       <input type='password' name='password'>
+                                   </td>
+                                   <td>
+                                       <label>Retype Password</label>
+                                       <input type='password' name='repwd'>
+                                   </td>
+                        </tr> -->
+                    </table>
+                </td>
+            </tr>
 
-    <br><br>
-    <?php if(isset($error)): ?>
-        <?php print_r($error)?>
-        <div class='error'>
-            Login failed. Please double check your email and password.
-        </div>
-        <br>
-    <?php endif; ?>
+        </table>
+        <p class="buttonPanel">
+            <input type="submit" value="login" />&nbsp;&nbsp;&nbsp;
+            <input type="reset" value="Reset"  />
+        </p>
 
-    <input type='submit' value='Log in'>
-
+        <?php if(isset($error)): ?>
+            <?php print_r($error)?>
+            <div class='error'>
+                Login failed. Please double check your email and password.
+            </div>
+            <br>
+        <?php endif; ?>
+    </div>
 </form>
-</body>
-</html>
+
+

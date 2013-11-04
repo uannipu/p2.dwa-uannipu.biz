@@ -1,0 +1,63 @@
+
+/** Global Styles *************************************************************************************************/
+html, body { margin: 0; padding: 0; font-family: Verdana, Geneva, sans-serif;background: #DCEBFF; font-size: 14px; }
+form { margin: 0; padding: 0; }
+label { font-weight: bold; display:block; font-size: 13px; }
+h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
+
+#container { background: #ffffff; width: 950px; margin: auto; border: 1px solid #999999; }
+#header { background: #09F; height: 100px; overflow: hidden; }
+#header p { color: #ffffff; font-weight: bold; font-size: 80px; padding: 0; margin: 20px 20px 0; font-family: Tahoma, Geneva, sans-serif; ; text-align: right; }
+#content { min-height: 350px; }
+#nav { float: left; width: 200px; margin-top: 20px; }
+#nav ul { list-style: none; margin: 0; padding: 0; }
+#nav li { border: 5px solid #cccccc; border-left: none; padding: 10px; margin-bottom: 5px; background: #efefef;}
+#nav li  a, #nav li  a:visited { text-decoration: none; font-weight: bold; color: #003399; }
+#nav li:hover { background: #ffffff; }
+#contentWithNav { min-height: 350px; float: left; width: 500px; }
+#footer {  background: #09F; height: 30px; clear: both;  font-size: 10px; text-align: center; padding: 4px; margin: 0; color: #ffffff; }
+
+.tableData table { border-collapse:collapse; border: none; }
+.tableData table th { border: none; border-bottom: 2px solid #cccccc; font-size: 12px; color: #003399; text-align: left }
+.tableData table td { vertical-align: top; border: 1px dashed #cccccc; }
+.oddRow { background: #D0EBFF }
+.form { border: 5px solid #cccccc; margin: 20px; padding: 15px; background: #efefef; }
+.description { padding: 20px }
+.buttonPanel { margin-left: 20px; margin-bottom: 20px;  }
+.buttonPanel input { font-size: 15px; padding: 5px 10px;}
+
+/** Login Styles *************************************************************************************************/
+.login .form { width: 250px; float: left; padding-top: 5px; }
+.login .form  label { font-size: 14px; }
+.login input { font-size: 20px; }
+.login .buttonPanel { margin: auto; }
+.login .buttonPanel input { font-size:15px; }
+.login .description { padding: 30px 10px 10px; float: left; width: 580px;  }
+.login .description h1 { margin: 10px 0 0; padding: 0; }
+.login #details { clear: both;  width: 920px; margin: 40px auto 20px;  }
+.login #details td { vertical-align: top; border: 2px solid #efefef; }
+
+/** Home Page Styles *************************************************************************************************/
+.homepage .description { padding-bottom: 0; }
+.homepage .description h1 { margin: 10px 0 0; padding: 0; }
+.homepage #scheduleInfo { width: 730px; margin: auto;  }
+.homepage .form { vertical-align: top }
+.homepage .form h3 { margin: 0; padding: 0;  }
+.homepage  .form  .buttonPanel { margin: auto; }
+.homepage #currentSchedule  { margin: 0 20px; padding: 0 0 0 20px;  }
+.homepage #currentSchedule  h3 { margin: 0; padding: 0; border-bottom: 2px solid #003399 }
+.homepage #currentSchedule  p { margin: 0; padding: 3px 0 7px; }
+
+/** Schedule Styles *************************************************************************************************/
+.schedule .description { padding: 30px 20px 0;  }
+.schedule .description h1 { margin: 0; padding: 0; }
+.schedule table { border-collapse: collapse; width: 660px; margin-left: 20px; }
+.schedule table td { background: #efefef; padding: 10px; margin: 20px;; border: 5px solid #cccccc; vertical-align: top; }
+.schedule h3 {margin: 0; padding: 0; }
+.schedule table.candidateInfo  td { width: 90%; margin: auto; border: none; }
+
+/** Roster Styles *************************************************************************************************/
+.roster .description { padding-bottom: 0; }
+.roster .form { padding: 10px; margin: 0 20px 20px;  width: 680px; text-align: left;}
+.roster .tableData table { margin: 0 20px 20px; width: 710px; }
+.roster .buttonPanel  { margin: 10px 0 0; padding: 0;  }
