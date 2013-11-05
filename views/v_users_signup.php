@@ -1,3 +1,6 @@
+<?php if(isset($_GET['incomplete'])): ?>
+    Incomplete registration
+<?php endif; ?>
 
 <form method="POST" action="/users/p_signup">
     <div id="contentWithNav" class="schedule">

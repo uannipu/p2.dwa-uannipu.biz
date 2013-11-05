@@ -36,6 +36,13 @@ public function p_signup() {
             Router::redirect('/users/signup'); // Redirect back to same page
         }
     */
+    foreach($_POST as $key => $value){
+        if((!isSet($value) || (!$value) || ($value = ""))){
+            Router::redirect('/users/signup/?incomplete');
+        }
+    }
+
+
     $this->template->content = View::instance('v_users_signup');
     if (strlen($_POST['first_name']) < 1) {
         $this->template->content->error_first_name = "First Name is invalid.";
@@ -168,7 +175,7 @@ public function p_signup() {
             setcookie("token", $token, strtotime('+1 year'), '/');
 
             # Send them to the main page - or whever you want them to go
-            Router::redirect("/posts/users");
+            Router::redirect("/posts");
 
         }
     }
@@ -231,32 +238,56 @@ public function p_signup() {
     }
 
     public function p_updateProfile($user = NULL) {
+
+     $_POST = DB::instance(DB_NAME) -> sanitize($_POST);
+
+     foreach($_POST as $key => $value){
+            if((!isSet($value) || (!$value) || ($value = ""))){
+                print_r($_POST);
+               Router::redirect('/users/updateProfile/?incomplete');
+            }
+        }
+
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
-            $this->template->content = View::instance('v_users_updateProfile');
-            if (strlen($_POST['first_name']) < 1) {
-                $this->template->content->error_first_name = "First Name is invalid.";
-                $flg ='true';
-            }
-
-            if (strlen($_POST['last_name']) < 1) {
-                $this->template->content->error_last_name = "Last Name is invalid.";
-                $flg = 'true';
-            }
-            if(isset($flg) && $flg=='true'){
-
-                echo $this->template;
-                return;
-            }
-
-            $user_id = $this->user->user_id;
+                $user_id = $this->user->user_id;
             $modified = $_POST['last_modified_date'] = Time::now();
             $data = Array('first_name'=>$_POST['first_name'], 'last_name'=>$_POST['last_name']);
             DB::instance(DB_NAME)->update("users",$data,"WHERE user_id = $user_id");
-            Router::redirect("/posts/user/<?php echo $user->user_id;?>");
+         //
+
+            Router::redirect('/users/updateProfile/?profilesuccess');
         }
 
     }
+    public function p_updatePassword($user = NULL) {
+
+        $_POST = DB::instance(DB_NAME) -> sanitize($_POST);
+
+        foreach($_POST as $key => $value){
+            if((!isSet($value) || (!$value) || ($value = ""))){
+               Router::redirect('/users/updateProfile/?pwdincomplete');
+            }
+        }
+        if(isset($_POST['password'],$_POST['repwd'])){
+            if($_POST['password'] != $_POST['repwd']){
+                Router::redirect('/users/updateProfile/?pwdmatcherror');
+            }
+        }
+
+        if(!$this->user){
+            Router:http_redirect('/users/login');
+        } else {
+            $user_id = $this->user->user_id;
+            $modified = $_POST['last_modified_date'] = Time::now();
+            $pwd = sha1(PASSWORD_SALT.$_POST['password']);
+            $data = Array('password'=> $pwd);
+            DB::instance(DB_NAME)->update("users",$data,"WHERE user_id = $user_id");
+            Router::redirect('/users/updateProfile/?pwdsuccess');
+        }
+
+    }
+
 
 } # eoc

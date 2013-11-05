@@ -10,7 +10,6 @@ class posts_controller extends base_controller {
 
     public function __construct() {
         parent::__construct();
-        echo "I an in construct";
         # Make sure user is logged in if they want to use anything in this controller
         if(!$this->user) {
            die("Members only. <a href='/users/login'>Login</a>");
@@ -153,16 +152,11 @@ class posts_controller extends base_controller {
 
     public function edit($post = NULL) {
 
-         $user = $this->user->user_id;
-        echo "post is ". $post;
-        echo "userid is ".$user;
+        $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
-        echo "query is ".$q ;
         # Do the insert
         $posts = DB::instance(DB_NAME)->select_row($q);
         if(!empty($posts)){
-            echo "inside if";
-
             $this->template->content = View::instance('v_posts_edit');
             $this->template->title = "Edit post";
             $this->template->content->posts = $posts;
@@ -182,7 +176,6 @@ class posts_controller extends base_controller {
         $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
         # Do the insert
-        echo $q;
         $posts = DB::instance(DB_NAME)->select_row($q);
         if(!empty($posts)){
             if(strlen($_POST['content']) < 1 ){
@@ -198,7 +191,7 @@ class posts_controller extends base_controller {
                 $modified = $_POST['modified'] = Time::now();
                 $data = Array('content'=>$_POST['content'],'modified'=>$modified);
                 DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
-                    Router::redirect("/posts/user/<?php echo $user->user_id;?>");
+                    Router::redirect("/posts/user/<?php echo $user->user_id;?>/?editsuccess");
             }
         }
 
@@ -235,7 +228,7 @@ class posts_controller extends base_controller {
         Router::redirect("/posts/users");
 
     }
-    public function delete($post = NULL) {
+    public function p_delete($post = NULL) {
 
         $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
@@ -249,7 +242,7 @@ class posts_controller extends base_controller {
                 $modified = $_POST['modified'] = Time::now();
                 $data = Array('content'=>$_POST['content'],'modified'=>$modified);
                 DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
-                Router::redirect("/users/login");
+                Router::redirect('/posts/user/'.$this->user->user_id.'/?deletesuccess');
         }
 
 
