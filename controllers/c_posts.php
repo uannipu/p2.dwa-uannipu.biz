@@ -205,7 +205,7 @@ class posts_controller extends base_controller {
                 $this->template->content->posts = $posts;
                 $this->template->content->post=$post;
                 $this->template->content->posttext='';
-                $this->template->content->error_content="Post cannot be empty";
+                $this->template->content->error_content="Topic cannot be empty";
                 echo $this->template;
                 return;
             } else {

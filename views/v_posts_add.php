@@ -2,7 +2,7 @@
 
 <form method="POST"  action='/posts/p_add'>
     <div id="contentWithNav" class="schedule">
-        <p>  <?php if(isset($_GET['incomplete'])):?> Post cannot be empty <?php endif; ?> </p>
+        <p>  <?php if(isset($_GET['incomplete'])):?> Topic cannot be empty <?php endif; ?> </p>
         <table cellspacing="0" cellpadding="0" border="0" align="center"  class="tableData"  >
             <tr>
                 <td colspan="3">

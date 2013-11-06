@@ -25,7 +25,7 @@
 				<li><a href='/users/updateProfile'>Update Profile</a></li>
 				<li><a href='/posts/add'>Add topic</a></li>
 				<li><a href='/posts/users'>Follow Users</a></li>
-                <li><a href="/posts/user/<?php echo $user->user_id;?>">View My Posts</a></li>
+                <li><a href="/posts/user/<?php echo $user->user_id;?>">View My Topics</a></li>
 
 		</ul>
 		</div>

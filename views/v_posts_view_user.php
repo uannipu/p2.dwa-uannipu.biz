@@ -10,7 +10,7 @@
 <form method="POST" action="">
     <div id="contentWithNav" class="homepage">
         <div class="description">
-            <h1>View My Posts </h1>
+            <h1>View My Topics </h1>
             <p> </p>
         </div>
         <div>
