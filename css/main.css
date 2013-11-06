@@ -58,7 +58,7 @@ h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
 .schedule table { border-collapse: collapse; width: 660px; margin-left: 20px; }
 .schedule table td { background: #efefef; padding: 10px; margin: 20px;; border: 5px solid #cccccc; vertical-align: top; }
 .schedule h3 {margin: 0; padding: 0; }
-.schedule table.candidateInfo  td { width: 90%; margin: auto; border: none; }
+.schedule table.candidateInfo  td { width: 50%; margin: auto; border: none; }
 
 /** Roster Styles *************************************************************************************************/
 .roster .description { padding-bottom: 0; }

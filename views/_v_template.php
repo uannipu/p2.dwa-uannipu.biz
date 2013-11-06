@@ -21,13 +21,14 @@
  		<div id="nav">
 			<ul>
 				<li><a href='/posts'>Home</a></li>
-				<li><a href='/users/logout'>Logout</a></li>
 				<li><a href='/users/updateProfile'>Update Profile</a></li>
-				<li><a href='/posts/add'>Add topic</a></li>
 				<li><a href='/posts/users'>Follow Users</a></li>
-                <li><a href="/posts/user/<?php echo $user->user_id;?>">View My Topics</a></li>
+                <li><a href="/posts/user/".<?=$user->user_id;?>.">View My Topics</a></li>
 
-		</ul>
+                <li><a href='/posts/add'>Add topic</a></li>
+                <li><a href='/users/logout'>Logout</a></li>
+
+            </ul>
 		</div>
         <!-- Menu options for users who are not logged in -->
     <?php else: ?>
@@ -45,7 +46,12 @@
 <?php if(isset($content)) echo $content; ?>
 
 <?php if(isset($client_files_body)) echo $client_files_body; ?>
-<div id="footer"><p>&copy; Usha Annipu 2013</p></div>
+<div id="footer"><p>&copy; Usha Annipu 2013</p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+            src="http://www.w3.org/Icons/valid-xhtml10"
+            alt="Valid XHTML 1.0!" height="31" width="88" /></a>
 </div>
+</div>
+
 </body>
 </html>

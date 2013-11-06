@@ -5,7 +5,7 @@
 <form method="POST" action="/users/p_updateProfile">
     <div id="contentWithNav" class="schedule">
 
-        <table cellspacing="0" cellpadding="0" border="0" align="center"  class="tableData"  >
+        <table cellspacing="0" cellpadding="0" border="1" align="center"  class="tableData"  >
             <tr>
                 <td colspan="3">
                     <h3>Welcome to Update Profile screen,&nbsp; <?php echo $user['first_name'];?>&nbsp; <?php echo $user['last_name'] ; ?> </h3>
@@ -15,7 +15,7 @@
                     <?php endif; ?>
 
 
-                    <table cellspacing="0" cellpadding="5" border="0" class="candidateInfo">
+                    <table cellspacing="0" cellpadding="5" border="1" class="candidateInfo">
                         <tr>
                             <td>
                                 <label>First Name</label>
@@ -47,7 +47,7 @@
         </table>
 </form>
     <form method="POST" action="/users/p_updatePassword">
-        <table cellspacing="0" cellpadding="0" border="0" align="center"  class="tableData"  >
+        <table cellspacing="0" cellpadding="0" border="1" align="center"  class="tableData"  >
             <tr>
                 <td colspan="3">
                     <h3> Reset  Password  </h3>
@@ -60,7 +60,7 @@
                     <?php if(isset($_GET['pwdsuccess'])): ?>
                     <div class="success"> Password has been reset successfully.</div>
                     <?php endif; ?>
-                        <table cellspacing="0" cellpadding="5" border="0" class="candidateInfo">
+                        <table cellspacing="0" cellpadding="5" border="1" class="candidateInfo">
                             <tr>
                                 <td>
                                     <label>New Password</label>

@@ -4,6 +4,9 @@
 <?php if(isset($_GET['editsuccess'])): ?>
   <div class="success"> Update is Successful </div>
 <?php endif; ?>
+<?php if(isset($_GET['editerror'])): ?>
+    <div class="error"> An error has occurred, please click again!  </div>
+<?php endif; ?>
 
 
 
@@ -34,17 +37,17 @@
                             <?php $classvar="" ; $i=0;?>
                             <?php foreach($view_posts as $post): ?>
                                 <?php if ($i % 2 == 1) $classvar = "oddRow"; else $classvar="evenRow"; ?>
-                                <tr class="<?php echo $classvar ?>">
+                                    <tr class="<?php echo $classvar ?>">
 
-                                    <td> <a href="/posts/edit/<?php echo $post['post_id']; ?>"><?=$post['content']?></a>
-                                    </td>
-                                    <td><a href="/posts/edit/<?php echo $post['post_id']; ?>">edit</a></td>
-                                    <td><a href="/posts/p_delete/<?php echo $post['post_id']; ?>">delete</a></td>
-                                    <td>  <time datetime="<?=Time::display($post['created'],'Y-m-d G:i')?>">
-                                            <?=Time::display($post['created'])?>
-                                        </time>
-                                    </td>
-                                </tr>
+                                        <td> <a href="/posts/edit/<?php echo $post['post_id']; ?>"><?=$post['content']?></a>
+                                        </td>
+                                        <td><a href="/posts/edit/<?php echo $post['post_id']; ?>">edit</a></td>
+                                        <td><a href="/posts/p_delete/<?php echo $post['post_id']; ?>">delete</a></td>
+                                        <td>  <time datetime="<?=Time::display($post['created'],'Y-m-d G:i')?>">
+                                                <?=Time::display($post['created'])?>
+                                            </time>
+                                        </td>
+                                    </tr>
                                 <?php $i++; ?>
                             <?php endforeach ?>
                         </table>
