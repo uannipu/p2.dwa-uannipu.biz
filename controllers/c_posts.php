@@ -17,6 +17,9 @@ class posts_controller extends base_controller {
     }
 
     public function add() {
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
        # echo " I am here ";
         # Setup view
         $this->template->content = View::instance('v_posts_add');
@@ -24,70 +27,81 @@ class posts_controller extends base_controller {
 
         # Render template
          echo $this->template;
-
+        }
     }
 
     public function p_add() {
-
-        $user = $this->user->user_id;
-        # Associate this post with this user
-        $_POST['user_id']  = $user;
-
-        # Unix timestamp of when this post was created / modified
-        $_POST['created']  = Time::now();
-        $_POST['modified'] = Time::now();
-
-        if(strlen($_POST['content']) < 1 ){
-                $this->template->content = View::instance('v_posts_add');
-                $this->template->title = "Add post";
-                $this->template->content->error_content="Post cannot be empty";
-                echo $this->template;
-                return;
+        if(!$this->user) {
+            Router::redirect('/users/login');
         } else {
+                    $user = $this->user->user_id;
+                # Associate this post with this user
+                $_POST['user_id']  = $user;
 
-                # Insert
-        # Note we didn't have to sanitize any of the $_POST data because we're using the insert method which does it for us
-        DB::instance(DB_NAME)->insert('user_posts', $_POST);
-        Router::redirect("/posts/user/add/<?php echo $user ?>");
-        # Quick and dirty feedback
+                # Unix timestamp of when this post was created / modified
+                $_POST['created']  = Time::now();
+                $_POST['modified'] = Time::now();
 
+                    if(strlen($_POST['content']) < 1 ){
+                            $this->template->content = View::instance('v_posts_add');
+                            $this->template->title = "Add post";
+                            $this->template->content->error_content="Post cannot be empty";
+                            echo $this->template;
+                            return;
+                     } else {
+
+                            # Insert
+                    # Note we didn't have to sanitize any of the $_POST data because we're using the insert method which does it for us
+                    DB::instance(DB_NAME)->insert('user_posts', $_POST);
+                    Router::redirect("/posts/user/add/<?php echo $user ?>");
+                    # Quick and dirty feedback
+                    }
         }
-
     }
 
     public function index() {
 
-        # Set up the View
-        $this->template->content = View::instance('v_posts_index');
-        $this->template->title   = "All Posts";
+            if(!$this->user) {
+                Router::redirect('/users/login');
+            } else {
 
-        # Query
-        $q = 'SELECT
-            posts.content,
-            posts.created,
-            posts.user_id AS post_user_id,
-            users_users.user_id AS follower_id,
-            users.first_name,
-            users.last_name
-        FROM user_posts posts
-        INNER JOIN users_users
-            ON posts.user_id = users_users.user_id_followed
-        INNER JOIN users
-            ON posts.user_id = users.user_id
-        WHERE users_users.user_id = '.$this->user->user_id;
+                    # Set up the View
+            $this->template->content = View::instance('v_posts_index');
+            $this->template->title   = "All Posts";
+                    $user_id = $this->user->user_id;
 
-        # Run the query, store the results in the variable $posts
-        $posts = DB::instance(DB_NAME)->select_rows($q);
+                # Query
+                $q = 'SELECT
+                    posts.content,
+                    posts.created,
+                    posts.user_id AS post_user_id,
+                    users_users.user_id AS follower_id,
+                    users.first_name,
+                    users.last_name
+                FROM user_posts posts
+                INNER JOIN users_users
+                    ON posts.user_id = users_users.user_id_followed
+                INNER JOIN users
+                    ON posts.user_id = users.user_id
+                WHERE users_users.user_id ='.$user_id .' order by posts.post_id DESC';
 
-        # Pass data to the View
-        $this->template->content->posts = $posts;
+                # Run the query, store the results in the variable $posts
+                $posts = DB::instance(DB_NAME)->select_rows($q);
 
-        # Render the View
-        echo $this->template;
+                # Pass data to the View
+                $this->template->content->posts = $posts;
 
+                # Render the View
+                echo $this->template;
+            }
     }
 
     public function users() {
+
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
+       $current_user = $this->user->user_id;
 
         # Set up the View
         $this->template->content = View::instance("v_posts_users");
@@ -119,17 +133,19 @@ class posts_controller extends base_controller {
 
         # Render the view
         echo $this->template;
+        }
     }
 
     public function user($user = NULL, $connections = NULL) {
 
-        # Set up the View
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
+
+            # Set up the View
         $this->template->content = View::instance("v_posts_view_user");
         $this->template->title   = "View user posts";
-
-        if($this -> user){
-            $current_user = $this->user->user_id;
-        }
+        $current_user = $this->user->user_id;
      /*   if($this -> user){
             $current_user = $this->user->user_id;
             $user_connections = "SELECT * FROM users_users WHERE user_id = $current_user AND user_id_followed =$user";
@@ -148,11 +164,16 @@ class posts_controller extends base_controller {
         $view_posts = DB::instance(DB_NAME) ->select_rows($q);
         $this ->template->content->view_posts = $view_posts;
         echo $this->template;
+        }
     }
 
     public function edit($post = NULL) {
 
-        $user = $this->user->user_id;
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
+
+            $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
         # Do the insert
         $posts = DB::instance(DB_NAME)->select_row($q);
@@ -169,9 +190,12 @@ class posts_controller extends base_controller {
         echo $this->template;
         # Send them back
         //Router::redirect("/posts/users");
-
+        }
     }
     public function p_edit($post = NULL) {
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
 
         $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
@@ -199,11 +223,15 @@ class posts_controller extends base_controller {
         //Router::redirect("/posts/users");
 
         }
-
+    }
 
     public function follow($user_id_followed) {
 
-        # Prepare the data array to be inserted
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
+
+            # Prepare the data array to be inserted
         $data = Array(
             "created" => Time::now(),
             "user_id" => $this->user->user_id,
@@ -215,10 +243,14 @@ class posts_controller extends base_controller {
 
         # Send them back
         Router::redirect("/posts/users");
+        }
 
     }
 
     public function unfollow($user_id_followed) {
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
 
         # Delete this connection
         $where_condition = 'WHERE user_id = '.$this->user->user_id.' AND user_id_followed = '.$user_id_followed;
@@ -226,9 +258,12 @@ class posts_controller extends base_controller {
 
         # Send them back
         Router::redirect("/posts/users");
-
+        }
     }
     public function p_delete($post = NULL) {
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        } else {
 
         $user = $this->user->user_id;
         $q = "select * from user_posts where post_id = $post and user_id = $user" ;
@@ -245,13 +280,9 @@ class posts_controller extends base_controller {
                 Router::redirect('/posts/user/'.$this->user->user_id.'/?deletesuccess');
         }
 
-
+        }
         # Send them back
         //Router::redirect("/posts/users");
 
     }
-
-
-
-
 }

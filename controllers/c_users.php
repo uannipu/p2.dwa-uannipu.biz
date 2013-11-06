@@ -200,6 +200,9 @@ public function p_signup() {
 
 
     public function logout() {
+        if(!$this->user){
+            Router:http_redirect('/users/login');
+        } else {
 
         # Generate and save a new token for next login
         $new_token = sha1(TOKEN_SALT.$this->user->email.Utils::generate_random_string());
@@ -219,6 +222,7 @@ public function p_signup() {
 
         # Send them back to the main index.
         Router::redirect("/");
+        }
 
     }
 
@@ -239,19 +243,17 @@ public function p_signup() {
 
     public function p_updateProfile($user = NULL) {
 
-     $_POST = DB::instance(DB_NAME) -> sanitize($_POST);
-
-     foreach($_POST as $key => $value){
-            if((!isSet($value) || (!$value) || ($value = ""))){
-                print_r($_POST);
-               Router::redirect('/users/updateProfile/?incomplete');
-            }
-        }
-
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
-                $user_id = $this->user->user_id;
+
+                foreach($_POST as $key => $value){
+                    if((!isSet($value) || (!$value) || ($value = ""))){
+                        print_r($_POST);
+                       Router::redirect('/users/updateProfile/?incomplete');
+                    }
+                }
+            $user_id = $this->user->user_id;
             $modified = $_POST['last_modified_date'] = Time::now();
             $data = Array('first_name'=>$_POST['first_name'], 'last_name'=>$_POST['last_name']);
             DB::instance(DB_NAME)->update("users",$data,"WHERE user_id = $user_id");
@@ -263,22 +265,20 @@ public function p_signup() {
     }
     public function p_updatePassword($user = NULL) {
 
-        $_POST = DB::instance(DB_NAME) -> sanitize($_POST);
-
-        foreach($_POST as $key => $value){
-            if((!isSet($value) || (!$value) || ($value = ""))){
-               Router::redirect('/users/updateProfile/?pwdincomplete');
-            }
-        }
-        if(isset($_POST['password'],$_POST['repwd'])){
-            if($_POST['password'] != $_POST['repwd']){
-                Router::redirect('/users/updateProfile/?pwdmatcherror');
-            }
-        }
-
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
+
+                foreach($_POST as $key => $value){
+                    if((!isSet($value) || (!$value) || ($value = ""))){
+                       Router::redirect('/users/updateProfile/?pwdincomplete');
+                    }
+                }
+                if(isset($_POST['password'],$_POST['repwd'])){
+                    if($_POST['password'] != $_POST['repwd']){
+                        Router::redirect('/users/updateProfile/?pwdmatcherror');
+                    }
+                }
             $user_id = $this->user->user_id;
             $modified = $_POST['last_modified_date'] = Time::now();
             $pwd = sha1(PASSWORD_SALT.$_POST['password']);
