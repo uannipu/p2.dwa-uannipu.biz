@@ -28,21 +28,21 @@
                     <td id="currentSchedule"  class="tableData">
 
                         <p> <?php if($user) echo $user->first_name. ' '.$user->last_name ?>&nbsp; posted:</p>
-                        <table cellspacing="2" cellpadding="5" border="0" width="100%" id="currentSchedule" class="tableData">
+                        <table class="topics">
                             <tr>
                                 <th>Post Content</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                                 <th>Time</th>
+                                <th>Time</th>
                             </tr>
                             <?php $classvar="" ; $i=0;?>
                             <?php foreach($view_posts as $post): ?>
                                 <?php if ($i % 2 == 1) $classvar = "oddRow"; else $classvar="evenRow"; ?>
                                     <tr class="<?php echo $classvar ?>">
 
-                                        <td> <a href="/posts/edit/<?php echo $post['post_id']; ?>"><?=$post['content']?></a>
+                                        <td><a href="/posts/edit/<?php echo $post['post_id']; ?>"><?=$post['content']?></a>
                                         </td>
-                                        <td><a href="/posts/edit/<?php echo $post['post_id']; ?>">edit</a></td>
+                                        <td ><a href="/posts/edit/<?php echo $post['post_id']; ?>">edit</a></td>
                                         <td><a href="/posts/p_delete/<?php echo $post['post_id']; ?>">delete</a></td>
                                         <td>  <time datetime="<?=Time::display($post['created'],'Y-m-d G:i')?>">
                                                 <?=Time::display($post['created'])?>

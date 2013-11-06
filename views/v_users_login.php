@@ -32,11 +32,11 @@
         </p>
         <p>This site allows users to register, follow other users, post a topic regarding various testing programs that we currently support, such as GRE, TOEFL,SAT etc..</p>
     </div>
-    <table cellpadding="10" cellspacing="5" border="1" id="details" class="loginData">
-        <td width="30%"> The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
+    <table id="details" class="loginData">
+        <td > The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
         </td>
-        <td width="30%"> This is strictly for testing purposes and not for any other business purposes.
+        <td > This is strictly for testing purposes and not for any other business purposes.
         </td>
-        <td width="30%">If you are looking for another testing program, this is probably not the right web site that you are looking for.
+        <td>If you are looking for another testing program, this is probably not the right web site that you are looking for.
         </td>
     </table>

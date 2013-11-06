@@ -15,7 +15,7 @@
                 <td id="currentSchedule"  class="tableData">
                     <h3>View Topics</h3>
                     <p>List of topics posted by the users that you follow:</p>
-                    <table cellspacing="2" cellpadding="5" border="0" width="100%" >
+                    <table class="topics">
                         <tr>
                             <th>Author name</th>
                             <th>Content</th>
@@ -26,9 +26,9 @@
                             <?php if ($i % 2 == 1) $classvar = "oddRow"; else $classvar="evenRow"; ?>
                             <tr class="<?php echo $classvar ?>">
 
-                            <td><?=$post['first_name']?> <?=$post['last_name']?> posted:</td>
-                            <td> <?=$post['content']?></td>
-                            <td>  <time datetime="<?=Time::display($post['created'],'Y-m-d G:i')?>">
+                                <td><?=$post['first_name']?> <?=$post['last_name']?> posted:</td>
+                                <td> <?=$post['content']?></td>
+                                <td>  <time datetime="<?=Time::display($post['created'],'Y-m-d G:i')?>">
                                     <?=Time::display($post['created'])?>
                                 </time>
                             </td>

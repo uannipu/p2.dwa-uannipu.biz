@@ -52,7 +52,10 @@ h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
 .homepage #currentSchedule  h3 { margin: 0; padding: 0; border-bottom: 2px solid #003399 }
 .homepage #currentSchedule  p { margin: 0; padding: 3px 0 7px; }
 .homepage #currentSchedule table {padding:5 ;border-spacing:2px;   width: 100% ; margin-left: 20px}
-
+.homepage #posts table { width: 100% ; border-spacing: 2px;}
+.homepage #posts td th{ padding: 5px; }
+.topics {width:100%;border-collapse: separate; padding: 2px;}
+.topics td{padding: 5px;}
 
 /** Schedule Styles *************************************************************************************************/
 .schedule .description { padding: 30px 20px 0;  }
@@ -67,3 +70,6 @@ h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
 .roster .form { padding: 10px; margin: 0 20px 20px;  width: 680px; text-align: left;}
 .roster .tableData table { margin: 0 20px 20px; width: 710px; }
 .roster .buttonPanel  { margin: 10px 0 0; padding: 0;  }
+
+#details{ border-collapse: separate; padding: 10px; border: 1px solid black}
+#details td{ padding: 5px; border: 1px solid black; width: 30%}
