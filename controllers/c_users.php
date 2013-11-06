@@ -154,7 +154,6 @@ public function p_signup() {
         AND password = '".$_POST['password']."'";
 
         $token = DB::instance(DB_NAME)->select_field($q);
-        $this->user->email = $_POST['email'];
 
         # If we didn't find a matching token in the database, it means login failed
             if(!$token) {
@@ -206,7 +205,7 @@ public function p_signup() {
         } else {
 
         # Generate and save a new token for next login
-        $new_token = sha1(TOKEN_SALT.$this->user->email.Utils::generate_random_string());
+        $new_token = sha1(TOKEN_SALT.$this->user->email_id.Utils::generate_random_string());
 
         # Create the data array we'll use with the update method
         # In this case, we're only updating one field, so our array only has one entry
