@@ -154,6 +154,7 @@ public function p_signup() {
         AND password = '".$_POST['password']."'";
 
         $token = DB::instance(DB_NAME)->select_field($q);
+        $this->user->email = $_POST['email'];
 
         # If we didn't find a matching token in the database, it means login failed
             if(!$token) {
