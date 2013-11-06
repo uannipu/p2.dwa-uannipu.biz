@@ -33,7 +33,7 @@
         <p>This site allows users to register, follow other users, post a topic regarding various testing programs that we currently support, such as GRE, TOEFL,SAT etc..</p>
     </div>
     <table id="details" class="loginData">
-        <td > The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
+        <td> The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
         </td>
         <td > This is strictly for testing purposes and not for any other business purposes.
         </td>
