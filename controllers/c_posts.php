@@ -215,7 +215,7 @@ class posts_controller extends base_controller {
                 $modified = $_POST['modified'] = Time::now();
                 $data = Array('content'=>$_POST['content'],'modified'=>$modified);
                 DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
-                    Router::redirect("/posts/user/<?php echo $user->user_id;?>/?editsuccess");
+                    Router::redirect("/posts/user/<?=$user->user_id;?>");
             }
         }
 
