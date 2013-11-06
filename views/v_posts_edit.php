@@ -28,8 +28,7 @@
 
         </table>
         <p class="buttonPanel">
-            <input type="submit" value="Update Post" />&nbsp;&nbsp;&nbsp;
-
+            <input type="submit" value="Update Post" />
         </p>
     </div>
 </form>

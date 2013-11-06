@@ -1,61 +1,42 @@
-
-<form method='POST' action='/users/p_login'>
-  <!--  <?php //if(isset($error)): ?>
-        <?php //print_r($error)?>
+   <?php if(isset($error)): ?>
         <div class='error'>
-            User already exists. Please login with your email id and password.
+            Login failed. Please double check your email and password.
         </div>
         <br>
-    <?php //endif; ?>
--->
-    <div id="contentWithNav" class="schedule">
-        <table cellspacing="0" cellpadding="0" border="0" align="center"  class="tableData"  >
-            <tr>
-                <td colspan="3">
-                    <h3>Login</h3>
-                    <p> Please enter the following information.</p>
-                    <table cellspacing="0" cellpadding="5" border="0" class="candidateInfo">
-                     <tr>
+    <?php endif; ?>
+   <?php if(isset($_GET['loginsuccess'])): ?>
+       <div class="success"> Registration is Successful! Please login.</div>
+   <?php endif; ?>
 
-                            <td>
-                                <label>Email</label>
-                                <input type='text' name='email'>
+   <div id="contentWithNav" class="login">
+        <form method='POST' action='/users/p_login'>
+        <div class="form">
+            <p>
+                <label>Email: </label>
+                <input type="text" name="email" size="30"  maxlength="250"/>
+            </p>
+            <p>
+                <label>Password: </label>
+                <input type="password" name="password" size="30" maxlength="250" />
+            </p>
+            <p class="buttonPanel">
+                <input type="submit" value="Login" id="loginButton" />
+            </p>
+           </div>
 
-                            </td>
-                            <td>
-                                <label>Password</label>
-                                <input type='password' name='password'>
-                            </td>
-                        </tr>
-
-                        <!--   <tr>
-                                   <td>
-                                       <label>Password</label>
-                                       <input type='password' name='password'>
-                                   </td>
-                                   <td>
-                                       <label>Retype Password</label>
-                                       <input type='password' name='repwd'>
-                                   </td>
-                        </tr> -->
-                    </table>
-                </td>
-            </tr>
-
-        </table>
-        <p class="buttonPanel">
-            <input type="submit" value="login" />&nbsp;&nbsp;&nbsp;
-            <input type="reset" value="Reset"  />
+        </form>
+</div>
+    <div class="description">
+        <h1>Welcome to the Testing Site</h1>
+        <p> This testing site is forum to share your experience and tips with various tests that we offer, helps you prepare ahead of the tests.
         </p>
-
-        <?php if(isset($error)): ?>
-            <?php print_r($error)?>
-            <div class='error'>
-                Login failed. Please double check your email and password.
-            </div>
-            <br>
-        <?php endif; ?>
+        <p>This site allows users to register, follow other users, post a topic regarding various testing programs that we currently support, such as GRE, TOEFL,SAT etc..</p>
     </div>
-</form>
-
-
+    <table cellpadding="10" cellspacing="5" border="1" id="details">
+        <td width="30%"> The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
+        </td>
+        <td width="30%"> This is strictly for testing purposes and not for any other business purposes.
+        </td>
+        <td width="30%">If you are looking for another testing program, this is probably not the right web site that you are looking for.
+        </td>
+    </table>

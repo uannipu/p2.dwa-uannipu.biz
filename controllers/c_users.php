@@ -2,63 +2,45 @@
 
 class users_controller extends base_controller {
 
-public function __construct() {
-parent::__construct();
-}
-
-public function signup($error = NULL) {
-
-# Setup view
-$this->template->content = View::instance('v_users_signup');
-$this->template->title   = "Sign Up";
-$this->template->content->error   = $error;
-echo $error;
-# Render template
-echo $this->template;
-
-}
-
-public function p_signup() {
-    /*
-        $email = $_POST['email_id'];
-        echo 'email'.$email;
-
-
-      //  if($email == '' || FILTER_VALIDATE_EMAIL) {
-        //    Router::redirect('/users/signup/?msg=email is invalid');
-        //}
-        echo 'email valid';
-        $emailquery = "SELECT email_id from users where email_id = '".$_POST['email_id']."'";
-        echo 'query : '.$emailquery ;
-
-       If (!validateEmail($_POST['email_id'])) {
-            $this->template->email_error = "Invalid Email address… Pls. enter a valid one";
-            Router::redirect('/users/signup'); // Redirect back to same page
-        }
-    */
-    foreach($_POST as $key => $value){
-        if((!isSet($value) || (!$value) || ($value = ""))){
-            Router::redirect('/users/signup/?incomplete');
-        }
+    public function __construct() {
+        parent::__construct();
     }
 
+    /* This function is to display the sign up page */
+    public function signup($error = NULL) {
 
+        # Setup view
+        $this->template->content = View::instance('v_users_signup');
+        $this->template->title   = "Sign Up";
+        $this->template->content->error   = $error;
+        echo $error;
+        # Render template
+        echo $this->template;
+
+    }
+    /* This function is to process the sign up once the form is submitted, performs server side validation, checks for duplicate email id */
+    public function p_signup() {
+   /* perform server side vaidations  and return if error exists*/
     $this->template->content = View::instance('v_users_signup');
     if (strlen($_POST['first_name']) < 1) {
-        $this->template->content->error_first_name = "First Name is invalid.";
+        $this->template->content->error_first_name = "First Name is required.";
         $flg ='true';
      }
 
     if (strlen($_POST['last_name']) < 1) {
-        $this->template->content->error_last_name = "Last Name is invalid.";
+        $this->template->content->error_last_name = "Last Name is required.";
         $flg = 'true';
      }
     if (strlen($_POST['password']) < 1) {
-        $this->template->content->error_password = "password is invalid.";
+        $this->template->content->error_password = "password is required.";
+        $flg = 'true';
+    }
+    if (strlen($_POST['repwd']) < 1) {
+        $this->template->content->error_repwd = "Confirm password is required.";
         $flg = 'true';
     }
     if (strlen($_POST['email_id']) < 1) {
-        $this->template->content->error_email_id = "Email id is invalid.";
+        $this->template->content->error_email_id = "Email id is required.";
         $flg = 'true';
     }
 
@@ -72,33 +54,13 @@ public function p_signup() {
        echo $this->template;
         return;
     }
-
-
-
-    /*  foreach($_POST as $key => $value){
-              if((isSet($value) || (!$value) || ($value = ""))){
-                  $error = 'incomplete';
-
-                  $this->template->content = View::instance('v_users_signup');
-                  $this->template->content->first_name = $_POST[$key];
-                  $this->template->content->error_.$key = $key."is too short.";
-                  $this->template->title   = "Sign Up";
-                  echo $this->template;
-                  return;
-               //   $this->template->email_error = "Invalid Email address… Pls. enter a valid one";
-               //   Router::redirect('/users/signup');
-              }
-          } */
     $emailquery = "SELECT email_id from users where email_id = '".$_POST['email_id']."'";
+
     //check if a user exists with the same email id
     $userExists = DB::instance(DB_NAME)->select_rows($emailquery);
-    if(!empty($userExists)){
-        $errstr='User already exists';
-        echo $errstr;
-        $error = 'userexists';
-     //   $this->template->email_error = "Invalid Email address… Pls. enter a valid one";
 
-        Router::redirect("/users/signup/error");
+    if(!empty($userExists)){
+             Router::redirect("/users/signup/error");
     } else {
 
         $_POST['created_date'] = Time::now();
@@ -113,16 +75,12 @@ public function p_signup() {
             'token'=>$_POST['token'],'created_date'=>$_POST['created_date'],'last_modified_date'=>$_POST['last_modified_date']);
         # Insert this user into the database
         $user_id = DB::instance(DB_NAME)->insert('users', $data);
-        Router::redirect('/users/login');
+        Router::redirect('/users/login?loginsuccess');
+        // redirect with a success message
     }
 }
 
-
-    # For now, just confirm they've signed up -
-    # You should eventually make a proper View for this
-    //echo 'You\'re signed up';
-
-
+    /* View for login page */
      public function login($error = NULL, $exists = NULL) {
 
         # Set up the view
@@ -136,7 +94,7 @@ public function p_signup() {
         echo $this->template;
 
     }
-
+    /* Function to process login */
     public function p_login() {
 
         # Sanitize the user entered data to prevent any funny-business (re: SQL Injection Attacks)
@@ -149,19 +107,17 @@ public function p_signup() {
         # Search the db for this email and password
         # Retrieve the token if it's available
         $q = "SELECT token
-        FROM users
-        WHERE email_id = '".$_POST['email']."'
-        AND password = '".$_POST['password']."'";
+                FROM users
+                WHERE email_id = '".$_POST['email']."'
+                AND password = '".$_POST['password']."'";
 
         $token = DB::instance(DB_NAME)->select_field($q);
 
         # If we didn't find a matching token in the database, it means login failed
             if(!$token) {
-                # Note the addition of the parameter "error"
                 $error='loginerror';
                 Router::redirect("/users/login/error");
-                 # But if we did, login succeeded!
-        } else {
+        } else { // login is successful
 
             /*
             Store this token in a cookie using setcookie()
@@ -174,35 +130,19 @@ public function p_signup() {
             */
             setcookie("token", $token, strtotime('+1 year'), '/');
 
-            # Send them to the main page - or whever you want them to go
+            # Redirect to the home page of the user.
             Router::redirect("/posts");
-
         }
     }
-
-        public function profile() {
-
-            # If user is blank, they're not logged in; redirect them to the login page
-            if(!$this->user) {
-                Router::redirect('/users/login');
-            }
-
-            # If they weren't redirected away, continue:
-
-            # Setup view
-            $this->template->content = View::instance('v_users_profile');
-            $this->template->title   = "Profile of".$this->user->first_name;
-
-            # Render template
-            echo $this->template;
-        }
-
-
-
+   /* function to logout, resets cookie to another hash*/
     public function logout() {
+
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
+
+            # Sanitize the user entered data to prevent any funny-business (re: SQL Injection Attacks)
+        $_POST = DB::instance(DB_NAME)->sanitize($_POST);
 
         # Generate and save a new token for next login
         $new_token = sha1(TOKEN_SALT.$this->user->email_id.Utils::generate_random_string());
@@ -220,16 +160,18 @@ public function p_signup() {
         # Delete their token cookie by setting it to a date in the past - effectively logging them out
         setcookie("token", "", strtotime('-1 year'), '/');
 
-        # Send them back to the main index.
-        Router::redirect("/");
+        # Redirect to login page.
+        Router::redirect("/users/login");
         }
 
     }
-
+/* function to view the profile of the user */
     public function updateProfile($user = NULL) {
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
+            # Sanitize the user entered data to prevent any funny-business (re: SQL Injection Attacks)
+            $_POST = DB::instance(DB_NAME)->sanitize($_POST);
             $this->template->content = View::instance(('v_users_updateProfile'));
             $this->template->title = "Update Profile";
             $user_id = $this->user->user_id;
@@ -240,7 +182,7 @@ public function p_signup() {
         }
 
     }
-
+/* function to update the profile */
     public function p_updateProfile($user = NULL) {
 
         if(!$this->user){
@@ -253,6 +195,9 @@ public function p_signup() {
                        Router::redirect('/users/updateProfile/?incomplete');
                     }
                 }
+            # Sanitize the user entered data to prevent any funny-business (re: SQL Injection Attacks)
+            $_POST = DB::instance(DB_NAME)->sanitize($_POST);
+
             $user_id = $this->user->user_id;
             $modified = $_POST['last_modified_date'] = Time::now();
             $data = Array('first_name'=>$_POST['first_name'], 'last_name'=>$_POST['last_name']);
@@ -263,12 +208,14 @@ public function p_signup() {
         }
 
     }
+
+    /* function to update the password */
     public function p_updatePassword($user = NULL) {
 
         if(!$this->user){
             Router:http_redirect('/users/login');
         } else {
-
+            // validate the fields
                 foreach($_POST as $key => $value){
                     if((!isSet($value) || (!$value) || ($value = ""))){
                        Router::redirect('/users/updateProfile/?pwdincomplete');
@@ -279,12 +226,16 @@ public function p_signup() {
                         Router::redirect('/users/updateProfile/?pwdmatcherror');
                     }
                 }
+            # Sanitize the user entered data to prevent any funny-business (re: SQL Injection Attacks)
+            $_POST = DB::instance(DB_NAME)->sanitize($_POST);
+
             $user_id = $this->user->user_id;
             $modified = $_POST['last_modified_date'] = Time::now();
             $pwd = sha1(PASSWORD_SALT.$_POST['password']);
             $data = Array('password'=> $pwd);
             DB::instance(DB_NAME)->update("users",$data,"WHERE user_id = $user_id");
             Router::redirect('/users/updateProfile/?pwdsuccess');
+            //redirect to update profile page with a success message.
         }
 
     }

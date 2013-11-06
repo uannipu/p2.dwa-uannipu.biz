@@ -1,13 +1,11 @@
-<?php if(isset($_GET['incomplete'])): ?>
-    Incomplete registration
-<?php endif; ?>
-
 <?php if(isset($_GET['deletesuccess'])): ?>
-    Delete Successful
+<div class="success"> Delete Successful </div>
 <?php endif; ?>
 <?php if(isset($_GET['editsuccess'])): ?>
-    Edit Successful
+  <div class="success"> Update is Successful </div>
 <?php endif; ?>
+
+
 
 <form method="POST" action="">
     <div id="contentWithNav" class="homepage">
@@ -16,12 +14,17 @@
             <p> </p>
         </div>
         <div>
+        <div class="success">
+            <?php if(isset($view_posts) && count($view_posts)== 0): ?>
+            <p>    You have no topics posted so far. Please use the left nav bar and add topics. </p>
+            <?php endif; ?>
 
+        </div>
             <table cellspacing="0" cellpadding="0" border="0" align="center" id="scheduleInfo">
                 <tr>
                     <td id="currentSchedule"  class="tableData">
 
-                        <p> <?php echo $view_posts[0]['first_name']; ?> posted:</p>
+                        <p> <?php if($user) echo $user->first_name. ' '.$user->last_name ?>&nbsp; posted:</p>
                         <table cellspacing="2" cellpadding="5" border="0" width="100%">
                             <tr>
                                 <th>Post Content</th>

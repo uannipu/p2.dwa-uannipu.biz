@@ -4,6 +4,8 @@ html, body { margin: 0; padding: 0; font-family: Verdana, Geneva, sans-serif;bac
 form { margin: 0; padding: 0; }
 label { font-weight: bold; display:block; font-size: 13px; }
 h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
+.error { font-weight: bold; display:block; font-size: 12px;color: red; }
+.success {font-weight: bold; display:block; font-size: 12px;color: green; }
 
 #container { background: #ffffff; width: 950px; margin: auto; border: 1px solid #999999; }
 #header { background: #09F; height: 100px; overflow: hidden; }
@@ -30,12 +32,13 @@ h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
 /** Login Styles *************************************************************************************************/
 .login .form { width: 250px; float: left; padding-top: 5px; }
 .login .form  label { font-size: 14px; }
-.login input { font-size: 20px; }
+.login input { font-size: 12px; }
 .login .buttonPanel { margin: auto; }
 .login .buttonPanel input { font-size:15px; }
-.login .description { padding: 30px 10px 10px; float: left; width: 580px;  }
+.login .description { padding: 5px 5px 5px; float: left; width: 250px;  }
 .login .description h1 { margin: 10px 0 0; padding: 0; }
 .login #details { clear: both;  width: 920px; margin: 40px auto 20px;  }
+.login #details td { vertical-align: top; border: 2px solid #efefef; }
 .login #details td { vertical-align: top; border: 2px solid #efefef; }
 
 /** Home Page Styles *************************************************************************************************/

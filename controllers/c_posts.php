@@ -45,7 +45,7 @@ class posts_controller extends base_controller {
                     if(strlen($_POST['content']) < 1 ){
                             $this->template->content = View::instance('v_posts_add');
                             $this->template->title = "Add post";
-                            $this->template->content->error_content="Post cannot be empty";
+                            $this->template->content->error_content="Topic cannot be empty";
                             echo $this->template;
                             return;
                      } else {
@@ -185,10 +185,7 @@ class posts_controller extends base_controller {
             $this->template->content->posttext=$posts['content'];
             echo $this->template;
         }
-        $this->template->content = View::instance('v_debug');
-        $this->template->content->message ="post id is ".$post. "userid is ".$user;
-        echo $this->template;
-        # Send them back
+         # Send them back
         //Router::redirect("/posts/users");
         }
     }
