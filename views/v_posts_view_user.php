@@ -10,7 +10,7 @@
 
 
 
-<form method="POST" action="">
+<form method="POST">
     <div id="contentWithNav" class="homepage">
         <div class="description">
             <h1>View My Topics </h1>
@@ -23,15 +23,16 @@
             <?php endif; ?>
 
         </div>
-            <table cellspacing="0" cellpadding="0" border="0" align="center" id="scheduleInfo">
+            <table id="scheduleInfo">
                 <tr>
                     <td id="currentSchedule"  class="tableData">
 
                         <p> <?php if($user) echo $user->first_name. ' '.$user->last_name ?>&nbsp; posted:</p>
-                        <table cellspacing="2" cellpadding="5" border="0" width="100%">
+                        <table cellspacing="2" cellpadding="5" border="0" width="100%" id="currentSchedule" class="tableData">
                             <tr>
                                 <th>Post Content</th>
                                 <th>Edit</th>
+                                <th>Delete</th>
                                  <th>Time</th>
                             </tr>
                             <?php $classvar="" ; $i=0;?>
@@ -47,7 +48,7 @@
                                                 <?=Time::display($post['created'])?>
                                             </time>
                                         </td>
-                                    </tr>
+                                     </tr>
                                 <?php $i++; ?>
                             <?php endforeach ?>
                         </table>

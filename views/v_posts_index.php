@@ -10,12 +10,12 @@
         </div>
         <div>
         <p>  <?php if(isset($error)):?>User with this email id already exists <?php endif; ?> </p>
-            <table cellspacing="0" cellpadding="0" border="0" align="center" id="scheduleInfo">
+            <table id="scheduleInfo">
             <tr>
                 <td id="currentSchedule"  class="tableData">
-                    <h3>View posts</h3>
-                    <p>List of posts posted by the users that you follow:</p>
-                    <table cellspacing="2" cellpadding="5" border="0" width="100%">
+                    <h3>View Topics</h3>
+                    <p>List of topics posted by the users that you follow:</p>
+                    <table cellspacing="2" cellpadding="5" border="0" width="100%" >
                         <tr>
                             <th>Author name</th>
                             <th>Content</th>

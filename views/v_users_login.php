@@ -22,7 +22,7 @@
             <p class="buttonPanel">
                 <input type="submit" value="Login" id="loginButton" />
             </p>
-           </div>
+        </div>
 
         </form>
 </div>
@@ -32,7 +32,7 @@
         </p>
         <p>This site allows users to register, follow other users, post a topic regarding various testing programs that we currently support, such as GRE, TOEFL,SAT etc..</p>
     </div>
-    <table cellpadding="10" cellspacing="5" border="1" id="details">
+    <table cellpadding="10" cellspacing="5" border="1" id="details" class="loginData">
         <td width="30%"> The +1 features that I added are "Edit a post", "Delete a post", "Update Profile".
         </td>
         <td width="30%"> This is strictly for testing purposes and not for any other business purposes.

@@ -51,6 +51,8 @@ h1,h2,h3  {font-family: Tahoma, Geneva, sans-serif; color: #003399; }
 .homepage #currentSchedule  { margin: 0 20px; padding: 0 0 0 20px;  }
 .homepage #currentSchedule  h3 { margin: 0; padding: 0; border-bottom: 2px solid #003399 }
 .homepage #currentSchedule  p { margin: 0; padding: 3px 0 7px; }
+.homepage #currentSchedule table {padding:5 ;border-spacing:2px;   width: 100% ; margin-left: 20px}
+
 
 /** Schedule Styles *************************************************************************************************/
 .schedule .description { padding: 30px 20px 0;  }

@@ -2,7 +2,6 @@
     Incomplete registration
 <?php endif; ?>
 
-
 <form method="POST" action="/users/p_signup">
     <div id="contentWithNav" class="homepage">
         <div class="description">
@@ -14,13 +13,13 @@
             <table cellspacing="0" cellpadding="0" border="0" align="center" id="scheduleInfo">
                 <tr>
                     <td id="currentSchedule"  class="tableData">
-                        <h3>View All Users</h3>
-                        <p>Follow or un follow the users by clicking the links:</p>
+                        <h3>View Topics</h3>
+                        <p>List of topics posted by the users that you follow:</p>
                         <table cellspacing="2" cellpadding="5" border="0" width="100%">
                             <tr>
                                 <th>User</th>
                                 <th>Follow/UnFollow</th>
-                              </tr>
+                            </tr>
                             <?php $classvar="" ; $i=0;?>
                             <?php foreach($users as $user): ?>
                                 <?php if ($i % 2 == 1) $classvar = "oddRow"; else $classvar="evenRow"; ?>
