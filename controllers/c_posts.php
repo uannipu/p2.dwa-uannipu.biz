@@ -53,7 +53,7 @@ class posts_controller extends base_controller {
                             # Insert
                     # Note we didn't have to sanitize any of the $_POST data because we're using the insert method which does it for us
                     DB::instance(DB_NAME)->insert('user_posts', $_POST);
-                    Router::redirect("/posts/user/add/<?php echo $user ?>");
+                    Router::redirect("/posts/user/add/".$user);
                     # Quick and dirty feedback
                     }
         }
@@ -272,17 +272,18 @@ class posts_controller extends base_controller {
         $posts = DB::instance(DB_NAME)->select_row($q);
         if(!empty($posts)){
             DB::instance(DB_NAME)->delete("user_posts","WHERE post_id = $post");
-            Router::redirect("/posts/user/<?php echo $user->user_id;?>");
-          } else {
+            Router::redirect("/posts/user/".$user."/?deletesuccess");
+       /*   } else {
                 $modified = $_POST['modified'] = Time::now();
                 $data = Array('content'=>$_POST['content'],'modified'=>$modified);
                 DB::instance(DB_NAME)->update("user_posts",$data,"WHERE post_id = $post");
-                Router::redirect('/posts/user/'.$this->user->user_id.'/?deletesuccess');
-        }
-
+                Router::redirect("/posts/user/".$user);
+          }
+        */
         }
         # Send them back
         //Router::redirect("/posts/users");
 
+    }
     }
 }
